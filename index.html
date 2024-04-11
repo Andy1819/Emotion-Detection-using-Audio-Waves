@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Detection using Audio Waves</title>
+    <style>
+        body  {
+            background-image: url("https://i0.wp.com/dubawa.org/wp-content/uploads/2023/04/image-71.png?fit=1292%2C592&ssl=1");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            margin-left: 50px;
+        }
+
+        h1{
+            color: darkorange;
+            font-size: 40px;
+        }
+
+        h3{
+            color: darkorange;
+            font-size: 20px;
+        }
+
+        #fileInput{
+            border-radius: 10px;
+            background-color: darkorange;
+            height: 20px;
+            margin-bottom: 40px;
+        }
+
+        button{
+            background-color: darkorange;
+            padding: 10px 10px;
+            font-size: 20px;
+            border-radius: 10px;
+            color:white;
+        }
+        #result{
+            font-size: 30px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Emotion Detection using Audio Waves</h1>
+    </div>
+    <div>
+        <h3>Choose .wav audio file</h3>
+        <input type="file" id="fileInput">
+    </div>
+    <div>
+        <button onclick="uploadFile()">Upload</button>
+    </div>
+    <div>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        async function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await fetch('http://127.0.0.1:8000/uploadfile/', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            document.getElementById('result').innerText = `Predicted Emotion: ${data.result}`;
+        }
+    </script>
+</body>
+</html>
